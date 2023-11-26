@@ -8,11 +8,26 @@ import (
 	"SampleGraphQL/graph/model"
 	"context"
 	"fmt"
+	"log"
 )
 
 // User is the resolver for the user field.
 func (r *queryResolver) User(ctx context.Context, id string) (*model.User, error) {
-	panic(fmt.Errorf("not implemented: User - user"))
+	doc, err := r.FirestoreClient.Collection("users").Doc(id).Get(ctx)
+	if err != nil {
+		// Firestoreからの取得に失敗した場合のエラーハンドリング
+		log.Printf("Error fetching user with ID %s: %v", id, err)
+		return nil, fmt.Errorf("error fetching user: %v", err)
+	}
+
+	var user model.User
+	if err := doc.DataTo(&user); err != nil {
+		// データ変換に失敗した場合のエラーハンドリング
+		return nil, err
+	}
+	// FirestoreのドキュメントIDをユーザーモデルのIDフィールドに設定
+	user.ID = doc.Ref.ID
+	return &user, nil
 }
 
 // Query returns QueryResolver implementation.
