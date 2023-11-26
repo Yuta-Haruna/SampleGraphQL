@@ -2,8 +2,9 @@
 
 package model
 
-type Bread struct {
-	ID        string `json:"id"`
-	Name      string `json:"name"`
-	CreatedAt string `json:"createdAt"`
+type User struct {
+	ID    string `json:"id"`
+	First string `json:"first"`
+	Last  string `json:"last"`
+	Old   int    `json:"old"`
 }

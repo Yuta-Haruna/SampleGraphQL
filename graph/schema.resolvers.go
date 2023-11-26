@@ -7,37 +7,12 @@ package graph
 import (
 	"SampleGraphQL/graph/model"
 	"context"
-	"log"
-
-	"google.golang.org/api/iterator"
+	"fmt"
 )
 
-// Breads is the resolver for the breads field.
-func (r *queryResolver) Breads(ctx context.Context) ([]*model.Bread, error) {
-	// Firestore からデータを取得して Bread オブジェクトのスライスを返すロジックを実装
-	iter := r.client.Collection("breads").Documents(ctx)
-	defer iter.Stop()
-
-	var breads []*model.Bread
-	for {
-		doc, err := iter.Next()
-		if err == iterator.Done {
-			break
-		}
-		if err != nil {
-			log.Printf("Firestoreデータ取得エラー: %v", err)
-			return nil, err
-		}
-
-		var bread model.Bread
-		if err := doc.DataTo(&bread); err != nil {
-			log.Printf("Firestoreデータ変換エラー: %v", err)
-			return nil, err
-		}
-		breads = append(breads, &bread)
-	}
-
-	return breads, nil
+// User is the resolver for the user field.
+func (r *queryResolver) User(ctx context.Context, id string) (*model.User, error) {
+	panic(fmt.Errorf("not implemented: User - user"))
 }
 
 // Query returns QueryResolver implementation.

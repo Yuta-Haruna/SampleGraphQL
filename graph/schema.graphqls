@@ -3,12 +3,13 @@
 # https://gqlgen.com/getting-started/
 
 
-type Bread {
-  id: String!
-  name: String!
-  createdAt: String!
+type User {
+  id: ID!
+  first: String!
+  last: String!
+  old: Int!
 }
 
 type Query {
-  breads: [Bread!]!
+  user(id: ID!): User
 }
